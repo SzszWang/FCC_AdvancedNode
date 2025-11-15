@@ -75,7 +75,8 @@ myDB(async client => {
 
 app.route('/register')
   .post((req, res, next) => {
-    myDataBase.findOne({ username: req.body.username }, (err, user) => {
+    const hash = bcrypt.hashSync(req.body.password, 12);
+    myDataBase.findOne({ username: hash }, (err, user) => {
       if (err) {
         next(err);
       } else if (user) {
@@ -83,7 +84,7 @@ app.route('/register')
       } else {
         myDataBase.insertOne({
           username: req.body.username,
-          password: req.body.password
+          password: hash
         },
           (err, doc) => {
             if (err) {
@@ -115,7 +116,10 @@ passport.use(new LocalStrategy((username, password, done) => {
     console.log(`User ${username} attempted to log in.`);
     if (err) return done(err);
     if (!user) return done(null, false);
-    if (password !== user.password) return done(null, false);
+    // if (password !== user.password) return done(null, false);
+    if (!bcrypt.compareSync(password, user.password)) { 
+     return done(null, false);
+    }
     return done(null, user);
   });
 }));
