@@ -11,12 +11,12 @@ const app = express();
 fccTesting(app); //For FCC testing purposes
 app.use(cors());
 
-app.use('/public', express.static(path.join(__dirname, 'public')));
+app.use('/public', express.static(process.cwd(), '/public'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.set('view engine', 'pug');
-app.set('views', path.join(__dirname, 'views/pug'));
+app.set('views', './views/pug');
 
 app.route('/').get((req, res) => {
   res.render('index', {
