@@ -9,6 +9,7 @@ const passport = require('passport');
 const session = require('express-session');
 const { ObjectID } = require('mongodb');
 const LocalStrategy = require('passport-local');
+const bcrypt = require('bcrypt');
 
 const app = express();
 app.use(cors({ origin: '*' }));
