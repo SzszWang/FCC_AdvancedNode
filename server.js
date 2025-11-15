@@ -14,7 +14,13 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.route('/').get((req, res) => {
-  res.render('index');
+  res.render('index', {
+    title: 'FCC Advanced Node and Express',      // 給 title
+    message: 'This is the pug template working', // 給 message
+    showLogin: false,
+    showRegistration: false,
+    showSocialAuth: false
+  });
 });
 
 const PORT = process.env.PORT || 3000;
