@@ -2,11 +2,14 @@
 require('dotenv').config();
 const express = require('express');
 const myDB = require('./connection');
+const cors = require('cors'); 
 const fccTesting = require('./freeCodeCamp/fcctesting.js');
 
 const app = express();
 
 fccTesting(app); //For FCC testing purposes
+app.use(cors());
+
 app.use('/public', express.static(process.cwd() + '/public'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
