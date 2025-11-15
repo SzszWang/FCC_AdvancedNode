@@ -53,18 +53,27 @@ myDB(async client => {
     // Change the response to render the Pug template
     res.render('index', {
       title: 'Connected to Database',
-      message: 'Please login'
+      message: 'Please login',
+      showLogin: true
     });
   });
 
+  app.route('/login').post(passport.authenticate('local', { failureRedirect: '/' }), (req, res) => {
+    res.redirect('/profile');
+  })
+
+  app.route('/profile').get((req,res) => {
+    res.render('profile');
+  })
+
   passport.use(new LocalStrategy((username, password, done) => {
-  myDataBase.findOne({ username: username }, (err, user) => {
-    console.log(`User ${username} attempted to log in.`);
-    if (err) return done(err);
-    if (!user) return done(null, false);
-    if (password !== user.password) return done(null, false);
-    return done(null, user);
-  });
+    myDataBase.findOne({ username: username }, (err, user) => {
+      console.log(`User ${username} attempted to log in.`);
+      if (err) return done(err);
+      if (!user) return done(null, false);
+      if (password !== user.password) return done(null, false);
+      return done(null, user);
+    });
 }));
 
   // Serialization and deserialization here...
