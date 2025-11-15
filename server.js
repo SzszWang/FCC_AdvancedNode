@@ -7,9 +7,9 @@ const path = require('path');
 const fccTesting = require('./freeCodeCamp/fcctesting.js');
 
 const app = express();
-
+app.use(cors({ origin: '*' }));
 fccTesting(app); //For FCC testing purposes
-app.use(cors());
+
 
 app.use('/public', express.static(process.cwd() + '/public'));
 app.use(express.json());
