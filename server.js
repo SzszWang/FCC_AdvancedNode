@@ -11,7 +11,7 @@ const app = express();
 fccTesting(app); //For FCC testing purposes
 app.use(cors());
 
-app.use('/public', express.static(process.cwd(), '/public'));
+app.use('/public', express.static(process.cwd() + '/public'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
