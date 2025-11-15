@@ -19,13 +19,7 @@ app.set('view engine', 'pug');
 app.set('views', './views/pug');
 
 app.route('/').get((req, res) => {
-  res.render('index', {
-    title: 'FCC Advanced Node and Express',
-    message: 'Pug is working!',
-    showLogin: false,
-    showRegistration: false,
-    showSocialAuth: false
-  });
+  res.render('index', { title: 'Hello', message: 'Please log in' });
 });
 
 const PORT = process.env.PORT || 3000;
