@@ -14,6 +14,10 @@ const passport = require('passport');
 // const bcrypt = require('bcrypt');
 
 const app = express();
+
+const http = require('http').createServer(app);
+const io = require('socket.io')(http);
+
 app.use(cors({ origin: '*' }));
 fccTesting(app); //For FCC testing purposes
 
@@ -52,6 +56,10 @@ myDB(async client => {
   const myDataBase = await client.db('database').collection('users');
   routes(app, myDataBase);
   auth(app, myDataBase);
+
+  io.on('connection', socket => {
+    console.log('A user has connected');
+  });
   // Be sure to change the title
 //   app.route('/').get((req, res) => {
 //     // Change the response to render the Pug template
@@ -147,14 +155,14 @@ myDB(async client => {
 });
 // app.listen out here...
 
-function ensureAuthenticated(req, res, next) {
-  if (req.isAuthenticated()) {
-    return next();
-  }
-  res.redirect('/');
-};
+// function ensureAuthenticated(req, res, next) {
+//   if (req.isAuthenticated()) {
+//     return next();
+//   }
+//   res.redirect('/');
+// };
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
+http.listen(PORT, () => {
   console.log('Listening on port ' + PORT);
 });
